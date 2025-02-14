@@ -33,17 +33,17 @@ export const testDBConnection = async () => {
 
 const ProductModel = {
   async addProduct(nombre, precio) {
-    const sql = "INSERT INTO producto (nombre, precio) VALUES (?, ?)";
+    const sql = "INSERT INTO bzkm2uiwicqdkydr79t1 (nombre, precio) VALUES (?, ?)";
     await db.execute(sql, [nombre, precio]);
   },
 
   async listProducts() {
-    const [rows] = await db.execute("SELECT * FROM producto");
+    const [rows] = await db.execute("SELECT * FROM bzkm2uiwicqdkydr79t1");
     return rows;
   },
 
   async deleteProduct(id) {
-    const [result] = await db.execute("DELETE FROM producto WHERE id = ?", [id]);
+    const [result] = await db.execute("DELETE FROM bzkm2uiwicqdkydr79t1 WHERE id = ?", [id]);
     return result.affectedRows;
   },
 };

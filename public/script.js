@@ -1,5 +1,4 @@
-const API_URL = "https://arquitecturamvc.onrender.com";
-
+const API_URL = "https://arquitecturamvc.onrender.com/api/products";
 
 async function fetchProducts() {
     try {
@@ -22,7 +21,6 @@ async function fetchProducts() {
         console.error("Error cargando productos:", error);
     }
 }
-
 
 document.getElementById("productForm").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -49,7 +47,6 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
     }
 });
 
-
 async function deleteProduct(id) {
     try {
         await fetch(`${API_URL}/${id}`, { method: "DELETE" });
@@ -58,6 +55,5 @@ async function deleteProduct(id) {
         console.error("Error eliminando producto:", error);
     }
 }
-
 
 fetchProducts();

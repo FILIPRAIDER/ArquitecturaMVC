@@ -31,6 +31,14 @@ export const testDBConnection = async () => {
   }
 };
 
+function keepAlive() {
+  connection.ping(err => {
+    if (err) console.error("Error manteniendo la conexión:", err);
+  });
+}
+
+setInterval(keepAlive, 60000);
+
 const ProductModel = {
   async addProduct(nombre, precio) {
     const sql = "INSERT INTO producto (nombre, precio) VALUES (?, ?)";

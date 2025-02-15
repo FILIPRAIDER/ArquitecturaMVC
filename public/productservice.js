@@ -10,18 +10,19 @@ export async function fetchProducts() {
     }
 }
 
-export async function addProduct(nombre, precio) {
+export async function addProduct(name, price) {
     try {
         const response = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ nombre, precio }),
+            body: JSON.stringify({ name, price }),
         });
         return await response.json();
     } catch (error) {
         console.error("Error agregando producto:", error);
     }
 }
+
 
 export async function deleteProduct(id) {
     try {

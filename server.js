@@ -13,53 +13,40 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const startServer = async () => {
-  const isDBConnected = await testDBConnection();
 
-  if (isDBConnected) {
-    const PORT = process.env.PORT || 3000;
+const staticPath = path.join(__dirname, "public");
+console.log(`📂 Serviendo archivos estáticos desde: ${staticPath}`);
+app.use(express.static(staticPath));
 
-    // ✅ 1️⃣ Verificar archivos estáticos
-    const staticPath = path.join(__dirname, "public");
-    console.log(`📂 Serviendo archivos estáticos desde: ${staticPath}`);
-    app.use(express.static(staticPath));
 
-    // ✅ 2️⃣ Asegurar que Render sirva archivos JS con el MIME correcto
-    app.use((req, res, next) => {
-      if (req.path.endsWith(".js")) {
-        res.type("application/javascript");
-      }
-      next();
-    });
-
-    // ✅ 3️⃣ Servir archivos de la API
-    app.use("/api", productRoutes);
-
-    // ✅ 4️⃣ Servir `index.html` si no se encuentra otra ruta
-    app.get("*", (req, res) => {
-      const indexPath = path.join(staticPath, "index.html");
-      res.sendFile(indexPath, (err) => {
-        if (err) {
-          console.error("❌ Error sirviendo index.html:", err.message);
-          res.status(500).send("Error cargando la vista");
-        }
-      });
-    });
-
-    // ✅ 5️⃣ Iniciar el servidor
-    app.listen(PORT, () => {
-      console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-    });
-
-    // ✅ 6️⃣ Manejar el cierre del servidor
-    process.on("SIGINT", () => {
-      console.log("🛑 Servidor detenido manualmente.");
-      process.exit();
-    });
-
-  } else {
-    console.error("❌ No se pudo conectar a la base de datos. El servidor no se iniciará.");
+app.get("/*.js", (req, res, next) => {
+  const filePath = path.join(staticPath, req.path);
+  if (filePath.endsWith(".js")) {
+    res.type("application/javascript");
   }
-};
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      console.error(`❌ Error cargando archivo JS: ${req.path}`, err.message);
+      res.status(404).send("Archivo no encontrado");
+    }
+  });
+});
 
-startServer();
+app.use("/api", productRoutes);
+
+
+app.get("*", (req, res) => {
+  const indexPath = path.join(staticPath, "index.html");
+  res.sendFile(indexPath);
+});
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+});
+
+process.on("SIGINT", () => {
+  console.log("🛑 Servidor detenido manualmente.");
+  process.exit();
+});

@@ -1,13 +1,13 @@
 ```mermaid
-graph TD;
-    A[Usuario] -->|Envia accion| B[Frontend (JS)];
-    B -->|Realiza peticion HTTP| C[Backend (Express)];
-    C -->|Procesa peticion| D[ProductController];
-    D -->|Solicita datos| E[ProductModel];
-    E -->|Ejecuta consulta en BD| F[(Base de Datos)];
-    F -->|Devuelve datos| E;
-    E -->|Responde al controlador| D;
-    D -->|Devuelve respuesta al frontend| C;
-    C -->|Envia datos JSON al frontend| B;
-    B -->|Renderiza productos en la UI| A;
+graph TD
+    A[Usuario] -->|Accion (Agregar/Eliminar/Listar)| B[Frontend (JS)]
+    B -->|Peticion HTTP| C[Backend (Express)]
+    C -->|Procesar peticion| D[Controlador (ProductController)]
+    D -->|Solicitar datos| E[Modelo (ProductModel)]
+    E -->|Consulta SQL| F[(Base de Datos)]
+    F -->|Devuelve datos| E
+    E -->|Respuesta al controlador| D
+    D -->|Envio de datos al frontend| C
+    C -->|Respuesta JSON| B
+    B -->|Renderizar en UI| A
 ```

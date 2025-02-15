@@ -1,4 +1,4 @@
-const API_URL = "https://arquitecturamvc.onrender.com/api/products";
+const API_URL = "https://arquitecturamvc.onrender.com/api";
 
 export async function fetchProducts() {
     try {

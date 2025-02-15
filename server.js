@@ -19,18 +19,29 @@ const startServer = async () => {
   if (isDBConnected) {
     const PORT = process.env.PORT || 3000;
 
-    app.use(express.static(path.join(__dirname, "public")));
+    // Verificar archivos estáticos
+    const staticPath = path.join(__dirname, "public");
+    console.log(`📂 Serviendo archivos estáticos desde: ${staticPath}`);
+    app.use(express.static(staticPath));
 
     // Rutas de la API
     app.use("/api", productRoutes);
 
+    // Servir la vista en rutas desconocidas
     app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "public", "index.html"));
+      res.sendFile(path.join(staticPath, "index.html"));
     });
 
     app.listen(PORT, () => {
       console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
     });
+
+    // Manejo de cierre del servidor
+    process.on("SIGINT", () => {
+      console.log("🛑 Servidor detenido manualmente.");
+      process.exit();
+    });
+
   } else {
     console.error("❌ No se pudo conectar a la base de datos. El servidor no se iniciará.");
   }

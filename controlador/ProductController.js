@@ -19,7 +19,7 @@ const ProductController = {
     try {
       const products = await ProductModel.listProducts();
       res.json(products.map(p => ({
-        id: p.ID,
+        ID: p.ID,
         nombre: p.Nombre,
         precio: p.Precio
       })));

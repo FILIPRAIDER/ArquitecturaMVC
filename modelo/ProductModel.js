@@ -53,7 +53,7 @@ const ProductModel = {
 
   async deleteProduct(id) {
     try {
-      const [result] = await pool.execute("DELETE FROM producto WHERE id = ?", [id]);
+      const [result] = await pool.execute("DELETE FROM producto WHERE ID = ?", [id]);
       return result.affectedRows;
     } catch (error) {
       console.error("❌ Error al eliminar producto:", error);

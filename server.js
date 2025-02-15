@@ -19,24 +19,39 @@ const startServer = async () => {
   if (isDBConnected) {
     const PORT = process.env.PORT || 3000;
 
-    // Verificar archivos estáticos
+    // ✅ 1️⃣ Verificar archivos estáticos
     const staticPath = path.join(__dirname, "public");
     console.log(`📂 Serviendo archivos estáticos desde: ${staticPath}`);
     app.use(express.static(staticPath));
 
-    // Rutas de la API
-    app.use("/api", productRoutes);
-
-    // Servir la vista en rutas desconocidas
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(staticPath, "index.html"));
+    // ✅ 2️⃣ Asegurar que Render sirva archivos JS con el MIME correcto
+    app.use((req, res, next) => {
+      if (req.path.endsWith(".js")) {
+        res.type("application/javascript");
+      }
+      next();
     });
 
+    // ✅ 3️⃣ Servir archivos de la API
+    app.use("/api", productRoutes);
+
+    // ✅ 4️⃣ Servir `index.html` si no se encuentra otra ruta
+    app.get("*", (req, res) => {
+      const indexPath = path.join(staticPath, "index.html");
+      res.sendFile(indexPath, (err) => {
+        if (err) {
+          console.error("❌ Error sirviendo index.html:", err.message);
+          res.status(500).send("Error cargando la vista");
+        }
+      });
+    });
+
+    // ✅ 5️⃣ Iniciar el servidor
     app.listen(PORT, () => {
       console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
     });
 
-    // Manejo de cierre del servidor
+    // ✅ 6️⃣ Manejar el cierre del servidor
     process.on("SIGINT", () => {
       console.log("🛑 Servidor detenido manualmente.");
       process.exit();

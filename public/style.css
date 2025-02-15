@@ -2,11 +2,23 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
   background-color: #f4f4f4;
+  margin: auto;
+  juistify-content: center;
+  border: 2px solid #ccc;
+  height: 100vh;
 }
 
 h1,
 h2 {
   color: #333;
+}
+
+.maincontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  height: 90%;
 }
 
 form {
@@ -65,4 +77,18 @@ li {
 
 .delete-btn:hover {
   background-color: rgb(247, 145, 155);
+}
+
+@media (max-width: 768px) {
+  body {
+    width: 100%;
+  }
+
+  ul {
+    width: 100%;
+  }
+
+  li {
+    width: 80%;
+  }
 }

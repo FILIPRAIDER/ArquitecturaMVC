@@ -11,12 +11,12 @@ export async function fetchProducts() {
     }
 }
 
-export async function addProduct(name, price) {
+export async function addProduct(nombre, precio) {
     try {
         const response = await fetch(API_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name, price }),
+            body: JSON.stringify({ nombre, precio }),
         });
         return await response.json();
     } catch (error) {

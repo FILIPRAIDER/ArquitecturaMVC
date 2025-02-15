@@ -9,7 +9,7 @@ async function renderProducts() {
     products.forEach(product => {
         const li = document.createElement("li");
         li.innerHTML = `
-            ${product.name} - 💲${product.price}
+            ${product.nombre} - 💲${product.precio}
             <button class="delete-btn" onclick="deleteProduct(${product.ID})">❌</button>
         `;
         productList.appendChild(li);
@@ -18,9 +18,9 @@ async function renderProducts() {
 
 document.getElementById("productForm").addEventListener("submit", async (e) => {
     e.preventDefault();
-    const name = document.getElementById("productName").value;
-    const price = document.getElementById("productPrice").value;
-    await addProduct(name, price);
+    const nombre = document.getElementById("productName").value;
+    const precio = document.getElementById("productPrice").value;
+    await addProduct(nombre, precio);
     document.getElementById("productForm").reset();
     renderProducts();
 });

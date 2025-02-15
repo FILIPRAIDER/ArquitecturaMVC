@@ -3,12 +3,12 @@ import ProductModel from "../modelo/ProductModel.js";
 const ProductController = {
   async addProduct(req, res) {
     try {
-      const { name, price } = req.body;
-      if (!name || price <= 0) {
+      const { nombre, precio } = req.body;
+      if (!nombre || precio <= 0) {
         return res.status(400).json({ error: "Datos inválidos" });
       }
 
-      await ProductModel.addProduct(name, price);
+      await ProductModel.addProduct(nombre, precio);
       res.json({ message: "✅ Producto agregado correctamente." });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -20,8 +20,8 @@ const ProductController = {
       const products = await ProductModel.listProducts();
       res.json(products.map(p => ({
         id: p.ID,
-        name: p.Nombre,
-        price: p.Precio
+        nombre: p.Nombre,
+        precio: p.Precio
       })));
     } catch (err) {
       res.status(500).json({ error: err.message });

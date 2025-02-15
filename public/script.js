@@ -8,7 +8,7 @@ async function renderProducts() {
     products.forEach(product => {
         const li = document.createElement("li");
         li.innerHTML = `
-            ${product.Nombre} - 💲${product.Precio}
+            ${product.nombre} - 💲${product.precio}
             <button class="delete-btn" onclick="deleteProduct(${product.ID})">❌</button>
         `;
         productList.appendChild(li);

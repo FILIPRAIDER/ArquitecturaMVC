@@ -1,5 +1,10 @@
 import { fetchProducts, addProduct, deleteProduct } from "./productservice.js";
 
+window.deleteProduct = async function (id) {
+    await deleteProduct(id);
+    renderProducts();
+};
+
 async function renderProducts() {
     const products = await fetchProducts();
     const productList = document.getElementById("productList");
@@ -26,3 +31,4 @@ document.getElementById("productForm").addEventListener("submit", async (e) => {
 });
 
 renderProducts();
+

@@ -18,7 +18,11 @@ const ProductController = {
   async listProducts(req, res) {
     try {
       const products = await ProductModel.listProducts();
-      res.json(products);
+      res.json(products.map(p => ({
+        id: p.ID,
+        name: p.Nombre,
+        price: p.Precio
+      })));
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

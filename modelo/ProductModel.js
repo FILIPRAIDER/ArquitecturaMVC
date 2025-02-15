@@ -4,26 +4,23 @@ import dotenv from "dotenv";
 dotenv.config();
 
 
-const db = await mysql.createConnection({
+const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
+
 
 export const testDBConnection = async () => {
   try {
-    const connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-    });
-
-    await connection.ping(); // Verifica que la conexión es válida
+    const connection = await pool.getConnection();
+    await connection.ping();
     console.log("✅ Conexión exitosa a la base de datos");
-    await connection.end(); // Cierra la conexión temporal
-
+    connection.release();
     return true;
   } catch (error) {
     console.error("❌ Error conectando a la base de datos:", error.message);
@@ -31,28 +28,37 @@ export const testDBConnection = async () => {
   }
 };
 
-function keepAlive() {
-  connection.ping(err => {
-    if (err) console.error("Error manteniendo la conexión:", err);
-  });
-}
-
-setInterval(keepAlive, 60000);
 
 const ProductModel = {
   async addProduct(nombre, precio) {
-    const sql = "INSERT INTO producto (nombre, precio) VALUES (?, ?)";
-    await db.execute(sql, [nombre, precio]);
+    try {
+      const sql = "INSERT INTO producto (nombre, precio) VALUES (?, ?)";
+      const [result] = await pool.execute(sql, [nombre, precio]);
+      return result;
+    } catch (error) {
+      console.error("❌ Error al agregar producto:", error);
+      throw error;
+    }
   },
 
   async listProducts() {
-    const [rows] = await db.execute("SELECT * FROM producto");
-    return rows;
+    try {
+      const [rows] = await pool.execute("SELECT * FROM producto");
+      return rows;
+    } catch (error) {
+      console.error("❌ Error al listar productos:", error);
+      throw error;
+    }
   },
 
   async deleteProduct(id) {
-    const [result] = await db.execute("DELETE FROM producto WHERE id = ?", [id]);
-    return result.affectedRows;
+    try {
+      const [result] = await pool.execute("DELETE FROM producto WHERE id = ?", [id]);
+      return result.affectedRows;
+    } catch (error) {
+      console.error("❌ Error al eliminar producto:", error);
+      throw error;
+    }
   },
 };
 

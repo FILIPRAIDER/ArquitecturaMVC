@@ -1,19 +1,21 @@
 import { fetchProducts, addProduct, deleteProduct } from "./productservice.js";
 
-async function renderProducts() {
-    const products = await fetchProducts();
-    const productList = document.getElementById("productList");
+function renderProducts(products) {
+    console.log("📦 Productos recibidos en renderProducts:", products);
+    const productList = document.getElementById("product-list");
     productList.innerHTML = "";
 
-    products.forEach(product => {
-        const li = document.createElement("li");
-        li.innerHTML = `
-            ${product.Nombre} - 💲${product.Precio}
-            <button class="delete-btn" onclick="deleteProduct(${product.ID})">❌</button>
+    products.forEach((product) => {
+        console.log("🛒 Producto individual:", product);
+        productList.innerHTML += `
+            <div class="product-item">
+                ${product.Nombre} - 💲${product.Precio}
+                <button class="delete-btn" onclick="deleteProduct(${product.id})">❌</button>
+            </div>
         `;
-        productList.appendChild(li);
     });
 }
+
 
 document.getElementById("productForm").addEventListener("submit", async (e) => {
     e.preventDefault();

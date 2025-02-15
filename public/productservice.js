@@ -3,10 +3,11 @@ const API_URL = "https://arquitecturamvc.onrender.com/api";
 export async function fetchProducts() {
     try {
         const response = await fetch(API_URL);
-        return await response.json();
+        const data = await response.json();
+        console.log("🔍 API Response:", data);
+        return data;
     } catch (error) {
-        console.error("Error cargando productos:", error);
-        return [];
+        console.error("❌ Error obteniendo productos:", error);
     }
 }
 

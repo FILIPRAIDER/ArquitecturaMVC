@@ -19,19 +19,6 @@ console.log(`📂 Serviendo archivos estáticos desde: ${staticPath}`);
 app.use(express.static(staticPath));
 
 
-app.get("/*.js", (req, res, next) => {
-  const filePath = path.join(staticPath, req.path);
-  if (filePath.endsWith(".js")) {
-    res.type("application/javascript");
-  }
-  res.sendFile(filePath, (err) => {
-    if (err) {
-      console.error(`❌ Error cargando archivo JS: ${req.path}`, err.message);
-      res.status(404).send("Archivo no encontrado");
-    }
-  });
-});
-
 app.use("/api", productRoutes);
 
 
@@ -45,6 +32,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
+
 
 process.on("SIGINT", () => {
   console.log("🛑 Servidor detenido manualmente.");

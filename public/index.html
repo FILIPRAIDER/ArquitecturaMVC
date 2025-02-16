@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestión de Productos</title>
     <link rel="stylesheet" href="style.css" />
+    <script type="module">
+      import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+      mermaid.initialize({ startOnLoad: true });
+    </script>
   </head>
   <body>
     <main class="maincontainer">
@@ -24,7 +28,21 @@
       <h2>📋 Lista de Productos</h2>
       <ul id="productList"></ul>
     </main>
-
+    <div class="diagram-container">
+      <pre class="mermaid">
+          graph TD;
+          A[Usuario] -->|Accion: Agregar/Eliminar/Listar| B[Frontend]
+          B -->|Peticion HTTP| C[Backend]
+          C -->|Procesar solicitud| D[Controlador]
+          D -->|Solicitar datos| E[Modelo]
+          E -->|Consulta SQL| F[Base de Datos]
+          F -->|Devuelve datos| E
+          E -->|Envio de datos al controlador| D
+          D -->|Respuesta JSON| C
+          C -->|Enviar datos al frontend| B
+          B -->|Actualizar interfaz| A
+      </pre>
+    </div>
     <script type="module" src="script.js"></script>
   </body>
 </html>

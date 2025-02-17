@@ -90,6 +90,25 @@ li {
   height: 100vh;
 }
 
+@font-face {
+  font-family: "SevenSegment";
+  src: url("/fonts/SevenSegment.ttf") format("truetype");
+}
+.name {
+  font-family: "Inter", serif;
+  font-size: 24px;
+}
+.price {
+  font-family: "SevenSegment", sans-serif;
+  font-size: 24px;
+  color: limegreen;
+  background: black;
+  padding: 5px 10px;
+  padding-right: 10px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
 @media (max-width: 768px) {
   body {
     width: 100%;

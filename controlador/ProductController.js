@@ -8,8 +8,8 @@ const ProductController = {
         return res.status(400).json({ error: "Datos inválidos" });
       }
 
-      await ProductModel.addProduct(nombre, precio);
-      res.json({ message: "✅ Producto agregado correctamente." });
+      const newProduct = await ProductModel.addProduct(nombre, precio);
+      res.json({ message: "Producto agregado correctamente.", producto: newProduct });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -18,11 +18,7 @@ const ProductController = {
   async listProducts(req, res) {
     try {
       const products = await ProductModel.listProducts();
-      res.json(products.map(p => ({
-        ID: p.ID,
-        nombre: p.Nombre,
-        precio: p.Precio
-      })));
+      res.json(products);
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -33,9 +29,9 @@ const ProductController = {
       const { id } = req.params;
       const rowsDeleted = await ProductModel.deleteProduct(id);
       if (rowsDeleted === 0) {
-        return res.status(404).json({ error: "⚠️ Producto no encontrado." });
+        return res.status(404).json({ error: "Producto no encontrado." });
       }
-      res.json({ message: "✅ Producto eliminado correctamente." });
+      res.json({ message: "Producto eliminado correctamente." });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

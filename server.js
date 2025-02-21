@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import productRoutes from "./routes/ProductRoutes.js";
-import { testDBConnection } from "./modelo/ProductModel.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -15,7 +14,7 @@ app.use(cors());
 
 
 const staticPath = path.join(__dirname, "public");
-console.log(`📂 Serviendo archivos estáticos desde: ${staticPath}`);
+console.log(`Serviendo archivos estáticos desde: ${staticPath}`);
 app.use(express.static(staticPath));
 
 
@@ -30,11 +29,11 @@ app.get("*", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
 
 process.on("SIGINT", () => {
-  console.log("🛑 Servidor detenido manualmente.");
+  console.log("Servidor detenido manualmente.");
   process.exit();
 });

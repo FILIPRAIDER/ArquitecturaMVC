@@ -1,4 +1,4 @@
-import ProductModel from "../modelo/ProductModel.js";
+import ProductService from "../modelo/ProductService.js";
 
 const ProductController = {
   async addProduct(req, res) {
@@ -8,7 +8,7 @@ const ProductController = {
         return res.status(400).json({ error: "Datos inválidos" });
       }
 
-      const newProduct = await ProductModel.addProduct(nombre, precio);
+      const newProduct = await ProductService.addProduct(nombre, precio);
       res.json({ message: "Producto agregado correctamente.", producto: newProduct });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -17,7 +17,7 @@ const ProductController = {
 
   async listProducts(req, res) {
     try {
-      const products = await ProductModel.listProducts();
+      const products = await ProductService.listProducts();
       res.json(products);
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -27,7 +27,7 @@ const ProductController = {
   async deleteProduct(req, res) {
     try {
       const { id } = req.params;
-      const rowsDeleted = await ProductModel.deleteProduct(id);
+      const rowsDeleted = await ProductService.deleteProduct(id);
       if (rowsDeleted === 0) {
         return res.status(404).json({ error: "Producto no encontrado." });
       }

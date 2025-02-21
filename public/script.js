@@ -7,9 +7,15 @@ window.deleteProduct = async function (id) {
 
 async function renderProducts() {
     const products = await fetchProducts();
+    console.log("🔍 API Response:", products);
+
+    if (!Array.isArray(products)) {
+        console.error("❌ Error: fetchProducts no devolvió un array", products);
+        return;
+    }
+
     const productList = document.getElementById("productList");
     productList.innerHTML = "";
-    console.log(products);
 
     products.forEach(product => {
         const li = document.createElement("li");
@@ -20,6 +26,7 @@ async function renderProducts() {
         productList.appendChild(li);
     });
 }
+
 
 document.getElementById("productForm").addEventListener("submit", async (e) => {
     e.preventDefault();

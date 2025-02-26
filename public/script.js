@@ -19,6 +19,7 @@ async function renderProducts() {
 
     products.forEach(product => {
         const li = document.createElement("li");
+        console.log(product.ID, " ",product.id );
         li.innerHTML = `
             <span class="name">${product.nombre}  <span class="price"><small>💲</small>${product.precio} </span></span>
             <button class="delete-btn" onclick="deleteProduct(${product.ID})">❌</button>
